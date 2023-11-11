@@ -60,10 +60,14 @@ toggle_protocol() {
     echo "wireguard openvpn" | sed "s/\s*$(get_current_protocol)\s*//g"
 }
 
+get_connection_status_improved() {
+    mullvad status | grep -o "Connected"
+}
+
 case $1 in
 	"--status") get_connection_status;;
 	"--toggle")
-	    if [ "$(get_connection_status)" = "connected" ]; then
+	    if [ "$(get_connection_status_improved)" = "Connected" ]; then
 	        mullvad disconnect
         elif [ "$(get_connection_status)" = "disconnected" ]; then
 	        mullvad connect
